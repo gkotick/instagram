@@ -17,7 +17,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var posts = [PFObject]()
     var isMoreDataLoading = false
     var loadingMoreView: InfiniteScrollActivityView?
-    var limit = 20
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -38,6 +38,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         insets.bottom += InfiniteScrollActivityView.defaultHeight;
         tableView.contentInset = insets
         
+        self.tableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
+
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
@@ -45,17 +47,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     func loadData(){
-        
+        MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         var query = PFQuery(className: "Post")
         query.orderByDescending("_created_at")
         query.includeKey("author")
-        if isMoreDataLoading{
-            limit = limit + 20
-        } else{
-            limit = 20
-        }
-        print(limit)
-        query.limit = limit
+        
+        
+        query.limit = 20
         query.findObjectsInBackgroundWithBlock{ (posts: [PFObject]?, error: NSError?) -> Void in
             if error == nil{
                 self.posts = posts!
@@ -70,8 +68,33 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 print(error)
             }
         }
+        MBProgressHUD.hideHUDForView(self.view, animated: true)
+        
+    }
+    func loadMoreData(){
+        
+        var query = PFQuery(className: "Post")
+        query.orderByDescending("_created_at")
+        query.includeKey("author")
         
         
+        query.limit = 20
+        query.skip = self.posts.count
+        query.findObjectsInBackgroundWithBlock{ (posts: [PFObject]?, error: NSError?) -> Void in
+            if error == nil{
+                for post in posts!{
+                    self.posts.append(post)
+                }
+                self.isMoreDataLoading = false
+                self.loadingMoreView!.stopAnimating()
+                
+                
+                self.tableView.reloadData()
+                print(posts!)
+            }else{
+                print(error)
+            }
+        }
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -140,7 +163,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 loadingMoreView!.startAnimating()
                 
                 // Code to load more results
-                self.loadData()
+                self.loadMoreData()
                 
                 print("here")
             }

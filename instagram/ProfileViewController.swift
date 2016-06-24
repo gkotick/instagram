@@ -9,8 +9,10 @@
 import UIKit
 import Parse
 import ParseUI
-class ProfileViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+import MBProgressHUD
+class ProfileViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIScrollViewDelegate {
 
+    @IBOutlet weak var button: UIButton!
     @IBOutlet weak var imageView: PFImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -29,6 +31,11 @@ class ProfileViewController: UIViewController, UICollectionViewDelegate, UIColle
             imageView.file = pic
             imageView.loadInBackground()
         }
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        
+        collectionView.insertSubview(refreshControl, atIndex: 0)
+        
         // Do any additional setup after loading the view.
     }
 
@@ -55,6 +62,7 @@ class ProfileViewController: UIViewController, UICollectionViewDelegate, UIColle
         dismissViewControllerAnimated(true, completion: nil)
     }
     func loadData(){
+        MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         var query = PFQuery(className: "Post")
         query.orderByDescending("_created_at")
         query.includeKey("author")
@@ -68,7 +76,7 @@ class ProfileViewController: UIViewController, UICollectionViewDelegate, UIColle
                 print(error)
             }
         }
-        
+        MBProgressHUD.hideHUDForView(self.view, animated: true)
         
     }
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -107,6 +115,31 @@ class ProfileViewController: UIViewController, UICollectionViewDelegate, UIColle
         PFUser.logOutInBackgroundWithBlock { (error: NSError?) in
             // PFUser.currentUser() will now be nil
         }
+        
+    }
+    func refreshControlAction(refreshControl: UIRefreshControl) {
+        // ... Create the NSURLRequest (myRequest) ...
+        self.loadData()
+        self.collectionView.reloadData()
+        refreshControl.endRefreshing()
+        
+    }
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "DetailSegue"{
+            let cell = sender?.superview!!.superview as! UICollectionViewCell
+            
+            let indexPath = collectionView.indexPathForCell(cell)
+            
+            let post = posts[indexPath!.row]
+            let user = PFUser.currentUser()
+            
+            let detailViewController = segue.destinationViewController as! DetailViewController
+            
+            detailViewController.user = user
+            
+            detailViewController.post = post
+        }         
+        
         
     }
     /*
