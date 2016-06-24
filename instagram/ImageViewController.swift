@@ -9,14 +9,14 @@
 import UIKit
 import Parse
 import MBProgressHUD
-class ImageViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
+class ImageViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate  {
 
     @IBOutlet weak var captionTextField: UITextView!
     @IBOutlet weak var imageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        captionTextField.delegate = self
         // Do any additional setup after loading the view.
     }
 
@@ -38,7 +38,13 @@ class ImageViewController: UIViewController, UIImagePickerControllerDelegate, UI
         dismissViewControllerAnimated(true, completion: nil)
     }
  
-
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        if(text == "\n") {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
     
     
     
@@ -78,7 +84,8 @@ class ImageViewController: UIViewController, UIImagePickerControllerDelegate, UI
                 print("Did not post.")
             }
         })
-        
+        self.imageView.image = nil
+        self.captionTextField.text = nil
         MBProgressHUD.hideHUDForView(self.view, animated: true)
 
         

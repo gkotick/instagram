@@ -25,7 +25,7 @@
                                         <rect key="frame" x="53" y="274" width="270" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" id="agl-rY-fJA">
                                         <rect key="frame" x="53" y="188" width="270" height="30"/>
@@ -273,10 +273,6 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="noun_67881_cc" id="Jsz-NR-dn9">
-                                <rect key="frame" x="315" y="561" width="27" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="khr-0e-0ov">
                                 <rect key="frame" x="303" y="557" width="51" height="32.5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -285,6 +281,14 @@
                                     <action selector="like:" destination="XnW-gn-pzx" eventType="touchUpInside" id="px8-PJ-5wX"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="open heart" id="Jsz-NR-dn9">
+                                <rect key="frame" x="315" y="561" width="27" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="closed heart" id="Tx0-FC-kVE">
+                                <rect key="frame" x="315" y="561" width="27" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -292,6 +296,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="captionLabel" destination="O6Y-gG-8B3" id="YOx-aX-RIm"/>
+                        <outlet property="closedHeart" destination="Tx0-FC-kVE" id="iVI-L8-HqF"/>
                         <outlet property="dateLabel" destination="sL3-Bf-MIL" id="8re-PI-SGI"/>
                         <outlet property="imageView" destination="db2-c2-lAK" id="6ya-xz-WLB"/>
                         <outlet property="numberLikes" destination="eKE-On-Xky" id="Aen-kX-VRP"/>
@@ -494,14 +499,19 @@
                                                         <action selector="like:" destination="jEh-Wr-JFz" eventType="touchUpInside" id="bpW-ZD-h4k"/>
                                                     </connections>
                                                 </button>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="noun_67881_cc" id="gZ2-q8-dku">
-                                                    <rect key="frame" x="319" y="414" width="27" height="25"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="open heart" id="gZ2-q8-dku">
+                                                    <rect key="frame" x="318" y="414" width="27" height="25"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="closed heart" id="3Yt-Ao-8nn">
+                                                    <rect key="frame" x="318" y="414" width="27" height="25"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="captionLabel" destination="uBt-eJ-ryE" id="3jl-dU-L2Z"/>
+                                            <outlet property="closedHeart" destination="3Yt-Ao-8nn" id="5m0-dF-Oo3"/>
                                             <outlet property="dateLabel" destination="Okm-sE-l9e" id="7ba-xo-uEg"/>
                                             <outlet property="likes" destination="uY4-66-FUc" id="glf-tt-3i2"/>
                                             <outlet property="postImage" destination="4aT-qh-PKM" id="q9C-bW-fT3"/>
@@ -693,12 +703,13 @@
         </scene>
     </scenes>
     <resources>
+        <image name="closed heart" width="29" height="28"/>
         <image name="logo.instagram-1" width="144" height="36"/>
         <image name="noun_123410_cc-5" width="29" height="26"/>
         <image name="noun_129030_cc" width="29" height="25"/>
         <image name="noun_136360_cc" width="43" height="41"/>
         <image name="noun_339269_cc" width="38" height="34"/>
-        <image name="noun_67881_cc" width="29" height="28"/>
+        <image name="open heart" width="29" height="28"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="eyj-5L-GzP"/>

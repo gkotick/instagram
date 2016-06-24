@@ -13,6 +13,7 @@ import ParseUI
 class PostTableViewCell: UITableViewCell {
 
     
+    @IBOutlet weak var closedHeart: UIImageView!
     @IBOutlet weak var username: UILabel!
     @IBOutlet weak var likes: UILabel!
     @IBOutlet weak var profilePicture: PFImageView!
@@ -26,7 +27,6 @@ class PostTableViewCell: UITableViewCell {
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
     var instagramPost: PFObject! {

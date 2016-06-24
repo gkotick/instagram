@@ -11,6 +11,7 @@ import Parse
 import MBProgressHUD
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     
+    
     @IBOutlet weak var button: UIButton!
     
     @IBOutlet weak var tableView: UITableView!
@@ -23,7 +24,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.delegate = self
         tableView.dataSource = self
         self.loadData()
-        
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), forControlEvents: UIControlEvents.ValueChanged)
         
@@ -136,6 +136,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         cell.dateLabel.text = date
         cell.captionLabel.text = caption
+        cell.closedHeart.hidden = true
         return cell
     }
     
@@ -196,8 +197,22 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let post = posts[indexPath!.row]
         
         cell.likes.text = "\(Int(cell.likes.text!)! + 1)"
+        
+        
+        
+        cell.closedHeart.hidden = false
+
+        UIView.animateWithDuration(0.05, delay:0.5, options:UIViewAnimationOptions.TransitionFlipFromTop, animations: {
+            cell.closedHeart.alpha = 0
+            }, completion: { finished in
+                cell.closedHeart.hidden = true
+        })
+        
+        
         post["likesCount"] = Int(cell.likes.text!)
         post.saveInBackground()
+        
+        
     }
 }
 /*

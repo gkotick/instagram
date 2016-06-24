@@ -12,6 +12,7 @@ import Parse
 
 class DetailViewController: UIViewController {
 
+    @IBOutlet weak var closedHeart: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var numberLikes: UILabel!
     @IBOutlet weak var captionLabel: UILabel!
@@ -32,6 +33,7 @@ class DetailViewController: UIViewController {
         imageView.file = post["media"] as? PFFile
         imageView.loadInBackground()
         dateLabel.text = post["date"] as! String
+        closedHeart.hidden = true
         // Do any additional setup after loading the view.
     }
 
@@ -43,7 +45,13 @@ class DetailViewController: UIViewController {
     @IBAction func like(sender: AnyObject) {
         
         let likes = post["likesCount"] as? Int
+        closedHeart.hidden = false
         
+        UIView.animateWithDuration(0.05, delay:0.5, options:UIViewAnimationOptions.TransitionFlipFromTop, animations: {
+            self.closedHeart.alpha = 0
+            }, completion: { finished in
+                self.closedHeart.hidden = true
+        })
         numberLikes.text = "\(Int(likes!) + 1)"
         post["likesCount"] = Int(numberLikes.text!)!
         post.saveInBackground()
