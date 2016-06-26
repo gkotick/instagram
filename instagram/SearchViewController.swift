@@ -64,7 +64,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         let indexPath = tableView.indexPathForCell(cell)
         
-        let user = users[indexPath!.row]
+        let user = filteredUsers[indexPath!.row]
         let userViewController = segue.destinationViewController as! UserViewController
         userViewController.user = user
     }
